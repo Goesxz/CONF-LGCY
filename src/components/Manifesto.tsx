@@ -104,7 +104,7 @@ export function Manifesto() {
           <div className="manifesto__video-wrap">
             <motion.video
               className="manifesto__video"
-              src="/videos/SaveInta.com_AQPw9VH4KzBsgfSyQAcP93lqlUNh8N_55m56kzdNTytbbvWLF1K-Y20-wTfDE9wofVkyGZiSaaowPaIwaqsEO61ws8RIIcY9OoGHiVs.mp4"
+              src="https://res.cloudinary.com/djpdnyvpv/video/upload/v1779562231/SaveInta.com_AQPw9VH4KzBsgfSyQAcP93lqlUNh8N_55m56kzdNTytbbvWLF1K-Y20-wTfDE9wofVkyGZiSaaowPaIwaqsEO61ws8RIIcY9OoGHiVs_fbxts2.mp4"
               autoPlay
               muted
               loop

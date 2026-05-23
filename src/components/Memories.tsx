@@ -1,25 +1,104 @@
+import { useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
 import "./Memories.css";
+
+/* ─── Animação ─────────────────────────────────────── */
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 34,
-    filter: "blur(8px)",
-  },
+  hidden: { opacity: 0, y: 34 },
   visible: (delay = 0) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 1.6,
-      delay,
-      ease,
-    },
+    transition: { duration: 1.6, delay, ease },
   }),
 };
+
+/* ─── Hook: autoplay por Intersection Observer ────── */
+
+function useVideoAutoplay(threshold = 0.3) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return videoRef;
+}
+
+/* ─── Sub-componente ────────────────────────────────── */
+
+interface MemoryCardProps {
+  year: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  video: string;
+  reverse?: boolean;
+  animationDelay?: number;
+}
+
+function MemoryCard({
+  year,
+  title,
+  subtitle,
+  description,
+  video,
+  reverse = false,
+  animationDelay = 0.15,
+}: MemoryCardProps) {
+  const videoRef = useVideoAutoplay(0.3);
+
+  return (
+    <motion.article
+      className={`memory ${reverse ? "memory--reverse" : ""}`}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      // amount: 0.1 → dispara com apenas 10% visível,
+      // evitando ficar preso no hidden ao navegar via hash
+      viewport={{ once: true, amount: 0.1 }}
+      custom={animationDelay}
+    >
+      <div className="memory__media">
+        {/*
+          Sem poster. O fundo escuro do .memory__media já serve
+          como placeholder enquanto o vídeo não começa.
+          preload="none" → não baixa nada até o usuário chegar aqui.
+        */}
+        <video ref={videoRef} muted loop playsInline preload="none">
+          <source src={video} type="video/mp4" />
+        </video>
+      </div>
+
+      <div className="memory__text">
+        <span>{year}</span>
+        <h3>{title}</h3>
+        <strong>{subtitle}</strong>
+        <p>{description}</p>
+        <a href="#inscricao">Reservar presença</a>
+      </div>
+    </motion.article>
+  );
+}
+
+/* ─── Dados ─────────────────────────────────────────── */
 
 const memories = [
   {
@@ -30,7 +109,6 @@ const memories = [
       "Uma noite marcada por presença, rendição e memória. Alguns momentos continuam mesmo depois que as luzes apagam.",
     video:
       "https://res.cloudinary.com/djpdnyvpv/video/upload/v1779557417/LGCY_CONF_24_zq61eo.mp4",
-    poster: "/images/scenes/BG LEGACY AUD 3.jpg",
   },
   {
     year: "2025",
@@ -40,7 +118,6 @@ const memories = [
       "Dois anos de história, comunidade e altar. Uma celebração que apontou para algo maior.",
     video:
       "https://res.cloudinary.com/djpdnyvpv/video/upload/v1779557522/LGCY_RECAP_2_ANOS_ibswun.mp4",
-    poster: "/images/scenes/2 ANOS - IMG.jpg",
   },
   {
     year: "2026",
@@ -50,23 +127,27 @@ const memories = [
       "Um tempo separado para ouvir, permanecer e voltar diferente. Mais do que registros: fragmentos de presença.",
     video:
       "https://res.cloudinary.com/djpdnyvpv/video/upload/v1779557630/LGCY_RECAP_CAMP_26_jdeudk.mp4",
-    poster: "/images/scenes/BG LEGACY AUD 3.jpg",
   },
 ];
+
+/* ─── Componente principal ──────────────────────────── */
 
 export function Memories() {
   return (
     <section className="memories" id="last-conf">
       <div className="memories__container">
+        {/*
+          Header usa animate (sempre visível) em vez de whileInView,
+          evitando ficar preso no estado hidden quando a página
+          carrega direto no anchor #last-conf.
+        */}
         <motion.div
           className="memories__header"
           variants={fadeUp}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-8%" }}
+          animate="visible"
         >
           <span>Última Conferência</span>
-
           <h2>
             Algumas coisas
             <br />
@@ -74,7 +155,6 @@ export function Memories() {
             <br />
             do fim.
           </h2>
-
           <p>
             Mais do que registros. Mais do que lembranças. Fragmentos de algo
             que ainda continua.
@@ -83,33 +163,12 @@ export function Memories() {
 
         <div className="memories__list">
           {memories.map((memory, index) => (
-            <motion.article
-              className={`memory ${index % 2 !== 0 ? "memory--reverse" : ""}`}
+            <MemoryCard
               key={memory.title}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-10%" }}
-              custom={0.15}
-            >
-              <div className="memory__media">
-                <video poster={memory.poster} muted loop playsInline autoPlay>
-                  <source src={memory.video} type="video/mp4" />
-                </video>
-              </div>
-
-              <div className="memory__text">
-                <span>{memory.year}</span>
-
-                <h3>{memory.title}</h3>
-
-                <strong>{memory.subtitle}</strong>
-
-                <p>{memory.description}</p>
-
-                <a href="#inscricao">Reservar presença</a>
-              </div>
-            </motion.article>
+              {...memory}
+              reverse={index % 2 !== 0}
+              animationDelay={0.15}
+            />
           ))}
         </div>
       </div>
