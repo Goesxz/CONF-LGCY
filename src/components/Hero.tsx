@@ -12,7 +12,6 @@ export function Hero() {
         loop
         playsInline
         preload="metadata"
-        poster="/images/scenes/BG LEGACY AUD 3.jpg"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
