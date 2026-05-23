@@ -14,7 +14,7 @@ export function Hero() {
         preload="metadata"
         poster="/images/scenes/BG LEGACY AUD 3.jpg"
       >
-        <source src="/videos/Design sem nome.mp4" type="video/mp4" />
+        <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
 
       <div className="hero__overlay" />

@@ -47,7 +47,7 @@ const memories = [
     description:
       "Um tempo separado para ouvir, permanecer e voltar diferente. Mais do que registros: fragmentos de presença.",
     video: "/videos/LGCY RECAP CAMP 26.mp4",
-    poster: "/images/scenes/YESHUA.jpg",
+    poster: "/videos/LGCY RECAP CAMP 26.mp4",
   },
 ];
 
