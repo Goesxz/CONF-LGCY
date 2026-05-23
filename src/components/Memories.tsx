@@ -28,7 +28,8 @@ const memories = [
     subtitle: "Não foi evento. Foi encontro.",
     description:
       "Uma noite marcada por presença, rendição e memória. Alguns momentos continuam mesmo depois que as luzes apagam.",
-    video: "/videos/LGCY CONF 24.mp4",
+    video:
+      "https://res.cloudinary.com/djpdnyvpv/video/upload/v1779557417/LGCY_CONF_24_zq61eo.mp4",
     poster: "/images/scenes/BG LEGACY AUD 3.jpg",
   },
   {
@@ -37,7 +38,8 @@ const memories = [
     subtitle: "Você precisava estar lá.",
     description:
       "Dois anos de história, comunidade e altar. Uma celebração que apontou para algo maior.",
-    video: "/videos/LGCY RECAP 2 ANOS.mp4",
+    video:
+      "https://res.cloudinary.com/djpdnyvpv/video/upload/v1779557522/LGCY_RECAP_2_ANOS_ibswun.mp4",
     poster: "/images/scenes/2 ANOS - IMG.jpg",
   },
   {
@@ -46,8 +48,9 @@ const memories = [
     subtitle: "Algumas coisas permanecem.",
     description:
       "Um tempo separado para ouvir, permanecer e voltar diferente. Mais do que registros: fragmentos de presença.",
-    video: "/videos/LGCY RECAP CAMP 26.mp4",
-    poster: "/videos/LGCY RECAP CAMP 26.mp4",
+    video:
+      "https://res.cloudinary.com/djpdnyvpv/video/upload/v1779557630/LGCY_RECAP_CAMP_26_jdeudk.mp4",
+    poster: "/images/scenes/BG LEGACY AUD 3.jpg",
   },
 ];
 
