@@ -1,0 +1,215 @@
+/* ─────────────────────────────────────────
+   TESTIMONIALS — editorial, profundo
+   ───────────────────────────────────────── */
+
+.testimonials {
+  position: relative;
+  overflow: hidden;
+  background: #050505;
+  padding: clamp(8rem, 14vw, 16rem) clamp(20px, 5vw, 80px);
+}
+
+/* ── Background ── */
+.testimonials__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(5, 5, 5, 0.82) 0%,
+      rgba(5, 5, 5, 0.55) 40%,
+      rgba(5, 5, 5, 0.62) 60%,
+      rgba(5, 5, 5, 0.9) 100%
+    ),
+    url("/images/scenes/2 ANOS - MIRELLA.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+
+  filter: grayscale(0.6) contrast(1.05) brightness(0.65);
+}
+
+/* ── Container ── */
+.testimonials__container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.testimonials__header {
+  max-width: 720px;
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.testimonials__label {
+  display: block;
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  color: var(--text-subtle, rgba(255, 255, 255, 0.32));
+  margin-bottom: 1.6rem;
+}
+
+.testimonials__title {
+  margin: 0 0 1.4rem;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(2.8rem, 6.5vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  font-weight: 400;
+  color: var(--text-primary, rgba(255, 255, 255, 0.94));
+}
+
+.testimonials__intro {
+  margin: 0;
+  font-family: var(--font-body, sans-serif);
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  line-height: 1.7;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  color: var(--text-muted, rgba(255, 255, 255, 0.44));
+}
+
+/* ── List ── */
+.testimonials__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Testimonial item ── */
+.testimonial {
+  display: grid;
+  grid-template-columns: 80px 1fr 200px;
+  gap: 40px;
+  align-items: start;
+  padding: clamp(2.8rem, 5.5vw, 4.5rem) 0;
+  border-top: 1px solid var(--border-soft, rgba(255, 255, 255, 0.07));
+  transition: border-color 300ms ease;
+}
+
+.testimonial:last-child {
+  border-bottom: 1px solid var(--border-soft, rgba(255, 255, 255, 0.07));
+}
+
+.testimonial:hover {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Number */
+.testimonial__number {
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: var(--text-subtle, rgba(255, 255, 255, 0.22));
+  padding-top: 0.55rem;
+}
+
+/* Quote */
+.testimonial__quote {
+  margin: 0;
+  padding: 0;
+}
+
+.testimonial__quote p {
+  margin: 0;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(1.5rem, 2.8vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  color: var(--text-primary, rgba(255, 255, 255, 0.92));
+  font-style: italic;
+}
+
+/* Footer */
+.testimonial__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 0.6rem;
+}
+
+.testimonial__name {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.68));
+}
+
+.testimonial__detail {
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-subtle, rgba(255, 255, 255, 0.26));
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .testimonial {
+    transition: none;
+  }
+}
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .testimonial {
+    grid-template-columns: 56px 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px 24px;
+  }
+
+  .testimonial__quote {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .testimonial__footer {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    padding-top: 0;
+  }
+
+  .testimonial__number {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .testimonials {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .testimonial {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .testimonial__number {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .testimonial__quote {
+    grid-column: 1;
+  }
+
+  .testimonial__footer {
+    grid-column: 1;
+    padding-top: 4px;
+  }
+
+  .testimonial__quote p {
+    font-size: clamp(1.4rem, 5.5vw, 2rem);
+  }
+}

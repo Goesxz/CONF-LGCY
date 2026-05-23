@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  --black: #050505;
+  --white: #fafafa;
+
+  --bg-primary: #050505;
+  --bg-secondary: #0b0b0b;
+  --bg-surface: #121212;
+
+  --text-primary: rgba(255, 255, 255, 0.96);
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-muted: rgba(255, 255, 255, 0.48);
+  --text-subtle: rgba(255, 255, 255, 0.26);
+
+  --border-soft: rgba(255, 255, 255, 0.09);
+
+  --legacy-purple: #7a35ff;
+  --legacy-blue: #5f7cff;
+  --legacy-pink: #ff6bd6;
+
+  --ambient-purple: rgba(122, 53, 255, 0.1);
+  --ambient-blue: rgba(95, 124, 255, 0.08);
+  --ambient-pink: rgba(255, 107, 214, 0.07);
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg-primary);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(
+      ellipse at 50% -10%,
+      rgba(255, 255, 255, 0.08),
+      transparent 42%
+    ),
+    radial-gradient(ellipse at 12% 18%, var(--ambient-purple), transparent 34%),
+    radial-gradient(ellipse at 88% 26%, var(--ambient-blue), transparent 36%),
+    linear-gradient(180deg, #080808 0%, #050505 38%, #090909 70%, #050505 100%);
+}
+
+.site-orbs {
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 25% 18%,
+      rgba(122, 53, 255, 0.12),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 76% 22%,
+      rgba(95, 124, 255, 0.1),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 52% 82%,
+      rgba(255, 255, 255, 0.045),
+      transparent 30%
+    );
+  filter: blur(44px);
+  animation: atmosphereMove 24s ease-in-out infinite alternate;
+}
+
+.site-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  mix-blend-mode: screen;
+}
+
+.site-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 50%,
+      rgba(0, 0, 0, 0.42) 100%
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025), rgba(5, 5, 5, 0.28));
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.92);
+  color: #050505;
+}
+
+@keyframes atmosphereMove {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.08) translate3d(-2%, 2%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

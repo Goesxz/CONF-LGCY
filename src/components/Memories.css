@@ -1,0 +1,279 @@
+.memories {
+  position: relative;
+  overflow: hidden;
+
+  padding: clamp(9rem, 15vw, 18rem) 24px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.025),
+      transparent 70%
+    ),
+    #050505;
+}
+
+.memories__container {
+  max-width: 1300px;
+  margin: auto;
+}
+
+.memories__header {
+  max-width: 780px;
+  margin-bottom: clamp(7rem, 13vw, 12rem);
+}
+
+.memories__header span {
+  display: block;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.42em;
+
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.memories__header h2 {
+  margin-top: 36px;
+
+  font-size: clamp(3rem, 7vw, 7rem);
+
+  line-height: 0.9;
+
+  letter-spacing: -0.06em;
+
+  font-weight: 500;
+
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.memories__header p {
+  margin-top: 32px;
+
+  max-width: 440px;
+
+  font-size: 0.95rem;
+
+  line-height: 2;
+
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.memories__list {
+  display: flex;
+  flex-direction: column;
+
+  gap: clamp(8rem, 15vw, 14rem);
+}
+
+.memory {
+  display: grid;
+
+  grid-template-columns:
+    7fr
+    5fr;
+
+  gap: clamp(2.5rem, 6vw, 6rem);
+
+  align-items: center;
+}
+
+.memory--reverse {
+  grid-template-columns:
+    5fr
+    7fr;
+}
+
+.memory--reverse .memory__media {
+  order: 2;
+
+  justify-self: end;
+}
+
+.memory--reverse .memory__text {
+  order: 1;
+}
+
+.memory__media {
+  overflow: hidden;
+
+  width: 100%;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: black;
+}
+
+/* HORIZONTAL */
+
+.memory__media:not(.memory__media--vertical) {
+  max-width: 850px;
+}
+
+.memory__media:not(.memory__media--vertical) video {
+  aspect-ratio: 16/9;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: cover;
+
+  filter: brightness(0.72) contrast(1.1);
+
+  transition: 1.5s ease;
+}
+
+/* VERTICAL */
+
+.memory__media--vertical {
+  width: 100%;
+
+  max-width: 380px;
+
+  aspect-ratio: 9/16;
+
+  justify-self: center;
+
+  position: relative;
+}
+
+.memory__media--vertical video {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  /* gira para modo reels */
+
+  transform: translate(-50%, -50%) rotate(-90deg) scale(1.8);
+
+  transform-origin: center;
+
+  filter: brightness(0.72) contrast(1.1);
+
+  transition: 1.5s ease;
+}
+
+/* HOVER */
+
+.memory__media:not(.memory__media--vertical):hover video {
+  transform: scale(1.03);
+}
+
+.memory__media--vertical:hover video {
+  transform: translate(-50%, -50%) rotate(-90deg) scale(1.85);
+}
+
+/* TEXTO */
+
+.memory__text span {
+  display: block;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.34em;
+
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.memory__text h3 {
+  margin-top: 22px;
+
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+
+  line-height: 0.92;
+
+  letter-spacing: -0.055em;
+
+  font-weight: 500;
+
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.memory__text strong {
+  display: block;
+
+  margin-top: 24px;
+
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+
+  font-style: italic;
+
+  font-weight: 400;
+
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.memory__text p {
+  margin-top: 32px;
+
+  max-width: 420px;
+
+  font-size: 0.95rem;
+
+  line-height: 2;
+
+  color: rgba(255, 255, 255, 0.36);
+}
+
+.memory__text a {
+  display: inline-flex;
+
+  margin-top: 42px;
+
+  padding: 16px 24px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  font-family: var(--font-mono);
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.25em;
+
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  transition: 0.4s ease;
+}
+
+.memory__text a:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+
+  color: white;
+
+  transform: translateY(-3px);
+}
+
+@media (max-width: 900px) {
+  .memory,
+  .memory--reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .memory--reverse .memory__media,
+  .memory--reverse .memory__text {
+    order: initial;
+  }
+
+  .memory__media,
+  .memory__media--vertical {
+    max-width: 100%;
+  }
+}

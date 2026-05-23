@@ -1,0 +1,453 @@
+/* ─────────────────────────────────────────────
+   COUNTDOWN — CONF LEGACY
+   Odômetro por dígito individual.
+───────────────────────────────────────────── */
+
+/* ── Section ──────────────────────────────── */
+
+.countdown {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(8rem, 14vw, 15rem) 24px;
+  background: #050505;
+  isolation: isolate;
+}
+
+/* ── Ambient ──────────────────────────────── */
+
+.countdown__ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 40% at 50% 0%,
+      rgba(255, 255, 255, 0.055) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 40% 30% at 0% 60%,
+      rgba(255, 255, 255, 0.018) 0%,
+      transparent 60%
+    );
+}
+
+/* ── Watermark ────────────────────────────── */
+
+.countdown__watermark {
+  position: absolute;
+  right: -0.06em;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+
+  font-family: var(--font-display, "Georgia", serif);
+  font-size: clamp(14rem, 36vw, 38rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
+}
+
+/* ── Container ────────────────────────────── */
+
+.countdown__container {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ── Header ───────────────────────────────── */
+
+.countdown__header {
+  max-width: 720px;
+}
+
+.countdown__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.46em;
+  text-transform: uppercase;
+
+  color: var(--text-subtle, rgba(255, 255, 255, 0.35));
+}
+
+.countdown__eyebrow-line {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.countdown__title {
+  margin-top: 40px;
+  font-family: var(--font-display, "Georgia", serif);
+  font-size: clamp(3.2rem, 7.5vw, 7.5rem);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  color: var(--text-primary, #f2f0ec);
+}
+
+.countdown__title em {
+  font-style: italic;
+  color: var(--text-secondary, rgba(242, 240, 236, 0.72));
+}
+
+.countdown__subtitle {
+  margin-top: 36px;
+  max-width: 440px;
+  font-family: var(--font-body, "Georgia", serif);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.85;
+  color: var(--text-muted, rgba(255, 255, 255, 0.48));
+}
+
+/* ── Divider ──────────────────────────────── */
+
+.countdown__divider {
+  display: flex;
+  align-items: center;
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.countdown__divider span {
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft, rgba(255, 255, 255, 0.08));
+}
+
+.countdown__divider-dot {
+  flex: 0 !important;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2) !important;
+  margin: 0 16px;
+}
+
+/* ── Grid ─────────────────────────────────── */
+
+.countdown__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-soft, rgba(255, 255, 255, 0.08));
+  border-left: 1px solid var(--border-soft, rgba(255, 255, 255, 0.08));
+}
+
+/* ── Cell ─────────────────────────────────── */
+
+.countdown__cell {
+  position: relative;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.2rem, 3vw, 2.5rem);
+  min-height: 200px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+
+  border-right: 1px solid var(--border-soft, rgba(255, 255, 255, 0.08));
+  border-bottom: 1px solid var(--border-soft, rgba(255, 255, 255, 0.08));
+
+  overflow: hidden;
+  transition: background 0.4s ease;
+}
+
+.countdown__cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.018);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.countdown__cell:hover::after {
+  opacity: 1;
+}
+
+/* ── Number (wraps two Digit spans) ──────── */
+
+.cd-number {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.02em;
+
+  font-family: var(--font-display, "Georgia", serif);
+  font-size: clamp(4.5rem, 10vw, 10rem);
+  font-weight: 300;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+
+  color: var(--text-primary, #f2f0ec);
+}
+
+/* ── Single digit drum ────────────────────── */
+
+.cd-digit {
+  position: relative;
+  display: inline-block;
+
+  /* clip so only one face shows at a time */
+  overflow: hidden;
+
+  /* height matches the line-height of the number */
+  height: 0.85em;
+}
+
+.cd-digit__face {
+  display: block;
+  line-height: 0.85em;
+}
+
+/* ── Resting state (no roll happening) ───── */
+
+.cd-digit__face--out {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0; /* hidden when not rolling */
+  transform: translateY(0);
+}
+
+.cd-digit__face--in {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Rolling state ────────────────────────── */
+
+/*
+  When .is-rolling fires on both faces simultaneously:
+  - --out: was at 0, rolls UP (+Y goes negative = upward) and fades out
+  - --in:  starts below (positive Y), rolls up to 0 and fades in
+*/
+
+@media (prefers-reduced-motion: no-preference) {
+  .cd-digit__face--out.is-rolling {
+    animation: digit-exit 0.52s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .cd-digit__face--in.is-rolling {
+    animation: digit-enter 0.52s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes digit-exit {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    40% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-55%);
+    }
+  }
+
+  @keyframes digit-enter {
+    0% {
+      opacity: 0;
+      transform: translateY(55%);
+    }
+    40% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ── Label ────────────────────────────────── */
+
+.countdown__label {
+  display: block;
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--text-subtle, rgba(255, 255, 255, 0.3));
+}
+
+/* ── SR-only ──────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Footer ───────────────────────────────── */
+
+.countdown__footer {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.countdown__location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted, rgba(255, 255, 255, 0.4));
+}
+
+.countdown__location-icon {
+  font-size: 0.5rem;
+  opacity: 0.5;
+}
+
+/* ── CTA ──────────────────────────────────── */
+
+.countdown__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 0 32px;
+  background: var(--text-primary, #f2f0ec);
+  color: #050505;
+  text-decoration: none;
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  outline: none;
+  transition:
+    background 0.28s ease,
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.28s ease;
+}
+
+.countdown__cta-arrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.countdown__cta:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.countdown__cta:hover .countdown__cta-arrow {
+  transform: translateX(4px);
+}
+
+.countdown__cta:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 3px;
+}
+
+.countdown__cta:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ── Tablet ───────────────────────────────── */
+
+@media (max-width: 960px) {
+  .countdown__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .countdown__cell {
+    min-height: 160px;
+  }
+
+  .countdown__watermark {
+    right: -0.08em;
+    top: auto;
+    bottom: -0.1em;
+    transform: none;
+    font-size: clamp(14rem, 55vw, 28rem);
+  }
+}
+
+/* ── Mobile ───────────────────────────────── */
+
+@media (max-width: 580px) {
+  .countdown {
+    padding-inline: 20px;
+  }
+
+  .countdown__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .countdown__cell {
+    min-height: 140px;
+    padding: 1.5rem 1.2rem;
+  }
+
+  .cd-number {
+    font-size: clamp(3.2rem, 18vw, 5rem);
+  }
+
+  .countdown__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .countdown__cta {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+}
+
+/* ── Reduced motion ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-digit__face--out.is-rolling,
+  .cd-digit__face--in.is-rolling {
+    animation: none;
+  }
+
+  .cd-digit__face--out {
+    opacity: 0;
+  }
+  .cd-digit__face--in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .countdown__cta,
+  .countdown__cta-arrow,
+  .countdown__cell::after {
+    transition: none;
+  }
+}
