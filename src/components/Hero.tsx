@@ -13,7 +13,10 @@ export function Hero() {
         playsInline
         preload="metadata"
       >
-        <source src="/videos/hero.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/djpdnyvpv/video/upload/v1779560136/hero_d5sx6i.mp4"
+          type="video/mp4"
+        />
       </video>
 
       <div className="hero__overlay" />
